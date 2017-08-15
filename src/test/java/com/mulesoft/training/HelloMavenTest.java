@@ -13,8 +13,11 @@ public class HelloMavenTest extends FunctionalTestCase {
     }
     
     @Override
-    protected String getConfigFile() {
-        return "mavensetup.xml";
+    protected String[] getConfigFiles() {
+    	String[] files = {"mavensetup.xml", "global.xml"};
+    	
+    	return files;
+        //return "mavensetup.xml";
     }
 
 }
