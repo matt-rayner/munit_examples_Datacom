@@ -16,7 +16,15 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         <munit:assert-true message="FAILED. Expected payload's datatype to be Java String, but found #[payload.getClass().getName()] instead!!!" condition="#[payload is java.lang.String]" doc:name="Assert True: Validate Payload's datatype as Java String"/>
     </munit:test>
     <munit:test name="sayHello_fnameReturnMatt_True" description="Test">
-        <flow-ref name="sayHello" doc:name="Flow-ref to sayHello"/>
+
+        <flow-ref name="sayHello" doc:name="sayHello"/>
         <munit:assert-on-equals message="Expected fname to conatin Matt, but found #[flowVars.fname] instead!!" expectedValue="#[&quot;Matt&quot;]" actualValue="#[flowVars.fname]" doc:name="Assert Equals: fname = Matt"/>
     </munit:test>
+    <munit:before-test name="sayHello-test-suiteBefore_Test" description="Before tests actions">
+        <munit:set payload="#[]" doc:name="Set Message: Set Query Params &quot;name&quot;">
+            <munit:inbound-properties>
+                <munit:inbound-property key="http.query.params" value="#[{'name':'Matt'}]"/>
+            </munit:inbound-properties>
+        </munit:set>
+	</munit:before-test>
 </mule>

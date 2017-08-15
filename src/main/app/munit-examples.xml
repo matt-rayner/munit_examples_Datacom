@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
-http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
     <flow name="sayHello">
-        <set-variable variableName="fname" value="#[&quot;Matt&quot;]" doc:name="Variable: fname"/>
-        <set-payload value="#[&quot;Hello Matt&quot;]" doc:name="Set Payload"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/sayHello" allowedMethods="GET" doc:name="HTTP"/>
+        <set-variable variableName="fname" value="#[message.inboundProperties.'http.query.params'.name]" doc:name="Variable: fname"/>
+        <set-payload value="#[&quot;Hello &quot; + flowVars.fname]" doc:name="Set Payload"/>
     </flow>
 </mule>
